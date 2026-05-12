@@ -40,27 +40,9 @@ app.config['MYSQL_PORT'] = int(
     os.getenv("MYSQL_PORT", 3306)
 )
 
-
-# MYSQL INITIALIZE
-
-try:
-
-    mysql = MySQL(app)
-
-    print("MYSQL CONNECTED SUCCESSFULLY ✅")
-
-except Exception as e:
-
-    print("MYSQL CONNECTION ERROR ❌")
-    print(e)
+mysql = MySQL(app)
 
 
-# TEST ROUTE
-
-@app.route('/')
-def home():
-
-    return "Key Management System Running Successfully 🚀"
 
 # LOGIN ROUTE
 @app.route('/', methods=['GET', 'POST'])
