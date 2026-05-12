@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Dashboard</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial;
+        }
+
+        body{
+            display:flex;
+            background:#f1f5f9;
+        }
+
+        /* SIDEBAR */
+
+        .sidebar{
+            width:250px;
+            height:100vh;
+            background:#0f172a;
+            color:white;
+            padding:20px;
+        }
+
+        .sidebar h2{
+            margin-bottom:30px;
+        }
+
+        .sidebar a{
+            display:block;
+            color:white;
+            text-decoration:none;
+            margin:15px 0;
+            padding:10px;
+            border-radius:5px;
+        }
+
+        .sidebar a:hover{
+            background:#1e293b;
+        }
+
+        /* MAIN CONTENT */
+
+        .main-content{
+            flex:1;
+            padding:30px;
+        }
+
+        .top-bar{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:30px;
+        }
+
+        .btn{
+            background:#2563eb;
+            color:white;
+            padding:10px 20px;
+            text-decoration:none;
+            border-radius:5px;
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+            background:white;
+        }
+
+        table th, table td{
+            padding:15px;
+            border-bottom:1px solid #ddd;
+            text-align:left;
+        }
+
+        table th{
+            background:#e2e8f0;
+        }
+
+        .active{
+            color:green;
+            font-weight:bold;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+
+    <div class="sidebar">
+
+        <h2>🔐 Key System</h2>
+
+        <a href="/dashboard">Dashboard</a>
+
+        <a href="/add-project">Add Project</a>
+
+        <a href="/logout">Logout</a>
+
+    </div>
+
+    <!-- MAIN CONTENT -->
+
+    <div class="main-content">
+
+        <div class="top-bar">
+
+            <h1>Projects Dashboard 🚀</h1>
+
+            <a href="/add-project" class="btn">
+                + Add Project
+            </a>
+
+        </div>
+
+        <table>
+
+            <tr>
+                <th>ID</th>
+                <th>Project Name</th>
+                <th>API Key</th>
+                <th>Status</th>
+                <th>Created</th>
+                <th>Last Used</th>
+                <th>Users</th>
+                <th>Actions</th>
+            </tr>
+
+            {% for project in projects %}
+
+<tr>
+
+    <td>{{ project[0] }}</td>
+
+    <td>{{ project[1] }}</td>
+
+    <td>
+
+    <span id="key{{ project[0] }}">
+        {{ project[2] }}
+    </span>
+
+    <span
+        onclick="copyKey('key{{ project[0] }}')"
+        style="
+            cursor:pointer;
+            margin-left:10px;
+            font-size:18px;
+        "
+    >
+        📋
+    </span>
+
+</td>
+
+<td>
+
+    {% if project[3] == 'Active' %}
+
+        <span style="
+            color:green;
+            font-weight:bold;
+        ">
+            Active
+        </span>
+
+    {% else %}
+
+        <span style="
+            color:red;
+            font-weight:bold;
+        ">
+            Blocked
+        </span>
+
+    {% endif %}
+
+</td>
+
+<td>{{ project[4] }}</td>
+
+<td>{{ project[5] }}</td>
+
+<td>
+
+    {{ project[6] }}
+
+</td>
+
+<td>
+
+    {% if project[3] == 'Active' %}
+
+    <a href="/block-project/{{ project[0] }}">
+
+        <button style="
+            background:red;
+            color:white;
+            border:none;
+            padding:6px 12px;
+            border-radius:5px;
+            cursor:pointer;
+        ">
+            Block
+        </button>
+
+    </a>
+
+    {% else %}
+
+    <a href="/unblock-project/{{ project[0] }}">
+
+        <button style="
+            background:green;
+            color:white;
+            border:none;
+            padding:6px 12px;
+            border-radius:5px;
+            cursor:pointer;
+        ">
+            Unblock
+        </button>
+
+    </a>
+
+    {% endif %}
+
+    <a href="/delete-project/{{ project[0] }}">
+
+        <button style="
+            background:black;
+            color:white;
+            border:none;
+            padding:6px 12px;
+            border-radius:5px;
+            cursor:pointer;
+            margin-left:5px;
+        ">
+            Delete
+        </button>
+
+    </a>
+
+</td>
+
+</tr>
+
+{% endfor %}
+        </table>
+
+    </div>
+
+<script>
+
+function copyKey(elementId){
+
+    let text =
+    document.getElementById(elementId).innerText;
+
+    navigator.clipboard.writeText(text);
+
+    alert("API Key Copied!");
+}
+
+</script>
+
+</body>
+</html>
