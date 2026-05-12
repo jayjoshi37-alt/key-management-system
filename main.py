@@ -1,25 +1,66 @@
-from flask import Flask, render_template, request, redirect, session
+from flask import Flask, render_template, request, redirect
+from flask import session, jsonify
+
 from flask_mysqldb import MySQL
+
 from utils.key_generator import generate_api_key
-from flask import jsonify
-import requests
+
 from dotenv import load_dotenv
+
+import requests
 import os
+
+
+# LOAD ENV VARIABLES
 
 load_dotenv()
 
+
+# FLASK APP
+
 app = Flask(__name__)
+
+
+# SECRET KEY
 
 app.secret_key = os.getenv("SECRET_KEY")
 
-# MySQL Config
-app.config['MYSQL_HOST'] = os.getenv("MYSQL_HOST")
-app.config['MYSQL_USER'] = os.getenv("MYSQL_USER")
-app.config['MYSQL_PASSWORD'] = os.getenv("MYSQL_PASSWORD")
-app.config['MYSQL_DB'] = os.getenv("MYSQL_DB")
-app.config['MYSQL_PORT'] = int(os.getenv("MYSQL_PORT"))
 
-mysql = MySQL(app)
+# MYSQL CONFIG
+
+app.config['MYSQL_HOST'] = os.getenv("MYSQL_HOST")
+
+app.config['MYSQL_USER'] = os.getenv("MYSQL_USER")
+
+app.config['MYSQL_PASSWORD'] = os.getenv("MYSQL_PASSWORD")
+
+app.config['MYSQL_DB'] = os.getenv("MYSQL_DB")
+
+app.config['MYSQL_PORT'] = int(
+    os.getenv("MYSQL_PORT")
+)
+
+
+# MYSQL INITIALIZE
+
+try:
+
+    mysql = MySQL(app)
+
+    print("MYSQL CONNECTED SUCCESSFULLY ✅")
+
+except Exception as e:
+
+    print("MYSQL CONNECTION ERROR ❌")
+    print(e)
+
+
+# TEST ROUTE
+
+@app.route('/')
+def home():
+
+    return "Key Management System Running Successfully 🚀"
 
 # LOGIN ROUTE
 @app.route('/', methods=['GET', 'POST'])
