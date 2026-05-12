@@ -19,22 +19,7 @@ app.config['MYSQL_PASSWORD'] = os.getenv("MYSQL_PASSWORD")
 app.config['MYSQL_DB'] = os.getenv("MYSQL_DB")
 app.config['MYSQL_PORT'] = int(os.getenv("MYSQL_PORT"))
 
-print("MYSQL HOST:", os.getenv("MYSQL_HOST"))
-print("MYSQL PORT:", os.getenv("MYSQL_PORT"))
-print("MYSQL USER:", os.getenv("MYSQL_USER"))
-print("MYSQL DB:", os.getenv("MYSQL_DB"))
-
 mysql = MySQL(app)
-
-try:
-
-    mysql = MySQL(app)
-
-    print("MYSQL CONNECTED SUCCESSFULLY ✅")
-
-except Exception as e:
-
-    print("MYSQL ERROR:", e)
 
 # LOGIN ROUTE
 @app.route('/', methods=['GET', 'POST'])
@@ -333,5 +318,6 @@ def logout():
     return redirect('/')
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
+
     app.run(debug=True)
